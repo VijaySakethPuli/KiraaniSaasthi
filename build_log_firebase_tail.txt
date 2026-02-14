@@ -1,0 +1,100 @@
+﻿[ +105 ms] Running Gradle task 'assembleDebug'... (completed in 7.0s)
+[  +23 ms] "flutter apk" took 8,023ms.
+[  +62 ms] Gradle task 
+assembleDebug failed with 
+exit code 1
+[        ] 
+           #0      
+throwToolExit (package:flutt
+er_tools/src/base/common.dar
+t:34:3)
+           #1      AndroidGr
+adleBuilder.buildGradleApp (
+package:flutter_tools/src/an
+droid/gradle.dart:592:7)
+           <asynchronous 
+suspension>
+           #2      AndroidGr
+adleBuilder.buildApk (packag
+e:flutter_tools/src/android/
+gradle.dart:234:5)
+           <asynchronous 
+suspension>
+           #3      
+BuildApkCommand.runCommand (
+package:flutter_tools/src/co
+mmands/build_apk.dart:131:5)
+           <asynchronous 
+suspension>
+           #4      FlutterCo
+mmand.run.<anonymous 
+closure> (package:flutter_to
+ols/src/runner/flutter_comma
+nd.dart:1590:27)
+           <asynchronous 
+suspension>
+           #5      
+AppContext.run.<anonymous 
+closure> (package:flutter_to
+ols/src/base/context.dart:15
+4:19)
+           <asynchronous 
+suspension>
+           #6      
+CommandRunner.runCommand (pa
+ckage:args/command_runner.da
+rt:212:13)
+           <asynchronous 
+suspension>
+           #7      FlutterCo
+mmandRunner.runCommand.<anon
+ymous closure> (package:flut
+ter_tools/src/runner/flutter
+_command_runner.dart:496:9)
+           <asynchronous 
+suspension>
+           #8      
+AppContext.run.<anonymous 
+closure> (package:flutter_to
+ols/src/base/context.dart:15
+4:19)
+           <asynchronous 
+suspension>
+           #9      FlutterCo
+mmandRunner.runCommand (pack
+age:flutter_tools/src/runner
+/flutter_command_runner.dart
+:431:5)
+           <asynchronous 
+suspension>
+           #10     FlutterCo
+mmandRunner.run.<anonymous 
+closure> (package:flutter_to
+ols/src/runner/flutter_comma
+nd_runner.dart:307:33)
+           <asynchronous 
+suspension>
+           #11     
+run.<anonymous 
+closure>.<anonymous 
+closure> (package:flutter_to
+ols/runner.dart:104:11)
+           <asynchronous 
+suspension>
+           #12     
+AppContext.run.<anonymous 
+closure> (package:flutter_to
+ols/src/base/context.dart:15
+4:19)
+           <asynchronous 
+suspension>
+           #13     main (pac
+kage:flutter_tools/executabl
+e.dart:103:3)
+           <asynchronous 
+suspension>
+
+
+[        ] Running 1 shutdown hook
+[   +2 ms] Shutdown hooks complete
+[  +54 ms] exiting with code 1

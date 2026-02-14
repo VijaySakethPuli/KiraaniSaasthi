@@ -1,0 +1,70 @@
+﻿[        ] [   +1 ms] Skipping target: gen_dart_plugin_registrant
+[        ] [        ] Skipping target: install_code_assets
+[        ] [        ] Skipping target: gen_localizations
+[        ] [ +352 ms] kernel_snapshot_program: Starting due to {InvalidatedReasonKind.outputSetAddition: The following outputs were added to the output set: C:\Users\Vijay.DESKTOP-0IQCOKU\Projects\Deepmind\shop_agent\.dart_tool\flutter_build\3775d9c2358debe7330c74f692631677\app.dill, InvalidatedReasonKind.inputChanged: The following inputs have updated contents: C:\Users\Vijay.DESKTOP-0IQCOKU\Projects\Deepmind\shop_agent\lib\core\services\gemini_service.dart,C:\Users\Vijay.DESKTOP-0IQCOKU\AppData\Local\Pub\Cache\hosted\pub.dev\google_generative_ai-0.4.7\lib\google_generative_ai.dart,C:\Users\Vijay.DESKTOP-0IQCOKU\AppData\Local\Pub\Cache\hosted\pub.dev\google_generative_ai-0.4.7\lib\src\model.dart,C:\Users\Vijay.DESKTOP-0IQCOKU\AppData\Local\Pub\Cache\hosted\pub.dev\google_generative_ai-0.4.7\lib\src\api.dart,C:\Users\Vijay.DESKTOP-0IQCOKU\AppData\Local\Pub\Cache\hosted\pub.dev\google_generative_ai-0.4.7\lib\src\chat.dart,C:\Users\Vijay.DESKTOP-0IQCOKU\AppData\Local\Pub\Cache\hosted\pub.dev\google_generative_ai-0.4.7\lib\src\content.dart,C:\Users\Vijay.DESKTOP-0IQCOKU\AppData\Local\Pub\Cache\hosted\pub.dev\google_generative_ai-0.4.7\lib\src\error.dart,C:\Users\Vijay.DESKTOP-0IQCOKU\AppData\Local\Pub\Cache\hosted\pub.dev\google_generative_ai-0.4.7\lib\src\function_calling.dart,C:\Users\Vijay.DESKTOP-0IQCOKU\AppData\Local\Pub\Cache\hosted\pub.dev\google_generative_ai-0.4.7\lib\src\client.dart,C:\Users\Vijay.DESKTOP-0IQCOKU\AppData\Local\Pub\Cache\hosted\pub.dev\google_generative_ai-0.4.7\lib\src\utils\mutex.dart,C:\Users\Vijay.DESKTOP-0IQCOKU\AppData\Local\Pub\Cache\hosted\pub.dev\google_generative_ai-0.4.7\lib\src\version.dart}
+[   +1 ms] [  +10 ms] C:\Users\Vijay.DESKTOP-0IQCOKU\flutter\bin\cache\dart-sdk\bin\dartaotruntime.exe C:\Users\Vijay.DESKTOP-0IQCOKU\flutter\bin\cache\dart-sdk\bin\snapshots\frontend_server_aot.dart.snapshot --sdk-root C:\Users\Vijay.DESKTOP-0IQCOKU\flutter\bin\cache\artifacts\engine\common\flutter_patched_sdk/ --target=flutter --no-print-incremental-dependencies -DFLUTTER_VERSION=3.41.1 -DFLUTTER_CHANNEL=stable -DFLUTTER_GIT_URL=https://github.com/flutter/flutter.git -DFLUTTER_FRAMEWORK_REVISION=582a0e7c55 -DFLUTTER_ENGINE_REVISION=3452d735bd -DFLUTTER_DART_VERSION=3.11.0 -DFLUTTER_APP_FLAVOR= -Ddart.vm.profile=false -Ddart.vm.product=false --enable-asserts --track-widget-creation --no-link-platform --packages C:\Users\Vijay.DESKTOP-0IQCOKU\Projects\Deepmind\shop_agent\.dart_tool\package_config.json --output-dill C:\Users\Vijay.DESKTOP-0IQCOKU\Projects\Deepmind\shop_agent\.dart_tool\flutter_build\3775d9c2358debe7330c74f692631677\app.dill --depfile C:\Users\Vijay.DESKTOP-0IQCOKU\Projects\Deepmind\shop_agent\.dart_tool\flutter_build\3775d9c2358debe7330c74f692631677\kernel_snapshot_program.d --incremental --initialize-from-dill C:\Users\Vijay.DESKTOP-0IQCOKU\Projects\Deepmind\shop_agent\.dart_tool\flutter_build\3775d9c2358debe7330c74f692631677\app.dill --source file:///C:/Users/Vijay.DESKTOP-0IQCOKU/Projects/Deepmind/shop_agent/.dart_tool/flutter_build/dart_plugin_registrant.dart --source package:flutter/src/dart_plugin_registrant.dart -Dflutter.dart_plugin_registrant=file:///C:/Users/Vijay.DESKTOP-0IQCOKU/Projects/Deepmind/shop_agent/.dart_tool/flutter_build/dart_plugin_registrant.dart --verbosity=error package:shop_agent/main.dart
+flutter : [ +603 ms] 
+[ +929 ms] lib/featur
+es/dashboard/screens/
+dashboard_screen.dart
+:94:60: Error: 
+Expected ',' before 
+this.
+At line:1 char:1
++ flutter build apk 
+--debug --verbose > 
+build_log_gemini.txt 
+2>&1
++ ~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~
+~~
+    + CategoryInfo   
+           : 
+NotSpecified: ([     
++603 ms] [ +9...,' b 
+   efore 
+this.:String) [    
+], RemoteException
+    + 
+FullyQualifiedError  
+  Id : 
+NativeCommandErr    
+or
+ 
+[        ] [        
+]           
+SnackBar(content: 
+Text('Order Parsed: 
+\${result['name']} x 
+\${result['qty']}')),
+[        ] [        
+]                    
+                     
+                   
+^^^^
+[        ] [        
+] lib/features/dashbo
+ard/screens/dashboard
+_screen.dart:94:64: 
+Error: Expected ',' 
+before this.
+[        ] [        
+]           
+SnackBar(content: 
+Text('Order Parsed: 
+\${result['name']} x 
+\${result['qty']}')),
+[        ] [        
+]                    
+                     
+                     
+  ^^^^^^^^^^^^^^^^^
+[        ] [        
+] lib/features/dashbo
+ard/screens/dashboard
+_screen.dart:94:81: 
+Error: Expected ',' 
+before this.
+[        ] [        
+]           

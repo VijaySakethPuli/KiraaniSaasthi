@@ -4,6 +4,9 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
 import 'package:permission_handler/permission_handler.dart';
+import 'package:shop_agent/core/services/gemini_service.dart';
+import 'package:shop_agent/core/services/firestore_service.dart';
+import 'package:shop_agent/core/models/inventory_item.dart';
 import 'dart:math';
 
 class DashboardScreen extends StatefulWidget {
@@ -20,15 +23,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
   String _lastWords = '';
   bool _speechEnabled = false;
 
-  // Dummy Data for Inventory
-  final List<Map<String, dynamic>> _inventory = [
-    {'name': 'Basmati Rice', 'qty': '50 kg', 'price': '₹4,500', 'color': 0xFFFCD34D},
-    {'name': 'Sunflower Oil', 'qty': '20 L', 'price': '₹2,800', 'color': 0xFFF87171},
-    {'name': 'Sugar', 'qty': '100 kg', 'price': '₹3,200', 'color': 0xFF60A5FA},
-    {'name': 'Atta (Flour)', 'qty': '75 kg', 'price': '₹2,100', 'color': 0xFFA78BFA},
-    {'name': 'Toor Dal', 'qty': '30 kg', 'price': '₹3,600', 'color': 0xFF34D399},
-    {'name': 'Masala Tea', 'qty': '10 kg', 'price': '₹1,500', 'color': 0xFFFB923C},
-  ];
+  final _geminiService = GeminiService();
+  final _firestoreService = FirestoreService();
 
   @override
   void initState() {
@@ -38,9 +34,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   void _initSpeech() async {
     _speechEnabled = await _speech.initialize(
-      onError: (val) => print('onError: $val'),
-      onStatus: (val) => print('onStatus: $val'),
+      onError: (val) => debugPrint('onError: $val'),
+      onStatus: (val) => debugPrint('onStatus: $val'),
     );
+    _searchController.addListener(() {
+      setState(() {});
+    });
     setState(() {});
   }
 
@@ -71,16 +70,188 @@ class _DashboardScreenState extends State<DashboardScreen> {
     });
   }
 
+  void _showAddManualDialog() {
+    final nameController = TextEditingController();
+    final qtyController = TextEditingController();
+    final priceController = TextEditingController();
+
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) => Container(
+        padding: EdgeInsets.only(
+          bottom: MediaQuery.of(context).viewInsets.bottom + 24,
+          top: 24,
+          left: 24,
+          right: 24,
+        ),
+        decoration: const BoxDecoration(
+          color: Color(0xFF1E293B),
+          borderRadius: BorderRadius.vertical(top: Radius.circular(32)),
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              'Add New Item',
+              style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 24),
+            TextField(
+              controller: nameController,
+              decoration: const InputDecoration(labelText: 'Item Name'),
+              style: const TextStyle(color: Colors.white),
+            ),
+            const SizedBox(height: 16),
+            TextField(
+              controller: qtyController,
+              decoration: const InputDecoration(labelText: 'Quantity'),
+              style: const TextStyle(color: Colors.white),
+            ),
+            const SizedBox(height: 16),
+            TextField(
+              controller: priceController,
+              decoration: const InputDecoration(labelText: 'Price'),
+              style: const TextStyle(color: Colors.white),
+            ),
+            const SizedBox(height: 32),
+            SizedBox(
+              width: double.infinity,
+              height: 56,
+              child: ElevatedButton(
+                onPressed: () async {
+                  if (nameController.text.isNotEmpty) {
+                    await _firestoreService.addInventoryItem({
+                      'name': nameController.text,
+                      'qty': qtyController.text,
+                      'price': priceController.text,
+                    });
+                    if (mounted) Navigator.pop(context);
+                  }
+                },
+                child: const Text('Add to Inventory'),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _showEditDialog(InventoryItem item) {
+    final nameController = TextEditingController(text: item.name);
+    final qtyController = TextEditingController(text: item.qty);
+    final priceController = TextEditingController(text: item.price);
+
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) => Container(
+        padding: EdgeInsets.only(
+          bottom: MediaQuery.of(context).viewInsets.bottom + 24,
+          top: 24,
+          left: 24,
+          right: 24,
+        ),
+        decoration: const BoxDecoration(
+          color: Color(0xFF1E293B),
+          borderRadius: BorderRadius.vertical(top: Radius.circular(32)),
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text(
+                  'Edit Item',
+                  style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),
+                ),
+                IconButton(
+                  onPressed: () {
+                    _firestoreService.deleteItem(item.id);
+                    Navigator.pop(context);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Item deleted')),
+                    );
+                  },
+                  icon: const Icon(PhosphorIconsRegular.trash, color: Colors.redAccent),
+                ),
+              ],
+            ),
+            const SizedBox(height: 24),
+            TextField(
+              controller: nameController,
+              decoration: const InputDecoration(labelText: 'Item Name'),
+              style: const TextStyle(color: Colors.white),
+            ),
+            const SizedBox(height: 16),
+            TextField(
+              controller: qtyController,
+              decoration: const InputDecoration(labelText: 'Quantity'),
+              style: const TextStyle(color: Colors.white),
+            ),
+            const SizedBox(height: 16),
+            TextField(
+              controller: priceController,
+              decoration: const InputDecoration(labelText: 'Price'),
+              style: const TextStyle(color: Colors.white),
+            ),
+            const SizedBox(height: 32),
+            SizedBox(
+              width: double.infinity,
+              height: 56,
+              child: ElevatedButton(
+                onPressed: () async {
+                  await _firestoreService.updateInventoryItem(item.id, {
+                    'name': nameController.text,
+                    'qty': qtyController.text,
+                    'price': priceController.text,
+                  });
+                  if (mounted) Navigator.pop(context);
+                },
+                child: const Text('Save Changes'),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   void _stopListening() async {
     await _speech.stop();
     setState(() {
       _isListening = false;
     });
-    // TODO: Process the _lastWords with Gemini here
+    
     if (_lastWords.isNotEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Processing: "$_lastWords"')),
+        const SnackBar(content: Text('Processing with Gemini...')),
       );
+
+      final result = await _geminiService.parseOrder(_lastWords);
+      
+      if (result != null) {
+        // Add to Firestore
+        await _firestoreService.addInventoryItem(result);
+        
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text("Added: ${result['name']} (${result['qty']})")),
+          );
+        }
+      } else {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Failed to understand order.')),
+          );
+        }
+      }
     }
   }
 
@@ -161,48 +332,180 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   ).animate().fadeIn(delay: 400.ms).moveY(begin: 10),
 
                   const SizedBox(height: 24),
-
-                  // Quick Stats
-                  Row(
-                    children: [
-                      _buildStatCard('Total Items', '142', PhosphorIconsRegular.package, Colors.blue),
-                      const SizedBox(width: 12),
-                      _buildStatCard('Low Stock', '8', PhosphorIconsRegular.warning, Colors.orange),
-                    ],
-                  ).animate().fadeIn(delay: 500.ms),
-
-                  const SizedBox(height: 24),
-
-                  // Inventory Grid
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Inventory',
-                        style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
-                      ),
-                      TextButton.icon(
-                        onPressed: () {},
-                        icon: Icon(PhosphorIconsRegular.plus, size: 16),
-                        label: const Text('Add Manually'),
-                      ),
-                    ],
-                  ).animate().fadeIn(delay: 600.ms),
-
-                  const SizedBox(height: 12),
-
+                  
+                  // Wrap the rest of the UI in StreamBuilder to get real-time stats and list
                   Expanded(
-                    child: MasonryGridView.count(
-                      crossAxisCount: 2,
-                      mainAxisSpacing: 12,
-                      crossAxisSpacing: 12,
-                      itemCount: _inventory.length,
-                      itemBuilder: (context, index) {
-                        final item = _inventory[index];
-                        return _buildInventoryCard(item)
-                            .animate()
-                            .fadeIn(delay: (600 + (index * 100)).ms)
-                            .moveY(begin: 20);
+                    child: StreamBuilder<List<InventoryItem>>(
+                      stream: _firestoreService.getInventoryStream(),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasError) {
+                          return const Center(child: Text('Error loading inventory', style: TextStyle(color: Colors.red)));
+                        }
+
+                        if (!snapshot.hasData) {
+                          return const Center(child: CircularProgressIndicator());
+                        }
+
+                        final allItems = snapshot.data!;
+                        final filteredItems = allItems.where((item) {
+                          final query = _searchController.text.toLowerCase();
+                          return item.name.toLowerCase().contains(query);
+                        }).toList();
+
+                        // Calculate Stats
+                        final totalItems = allItems.length;
+                        final lowStockCount = allItems.where((item) {
+                          // Simple heuristic: if quantity starts with a number < 10
+                          final match = RegExp(r'^(\d+)').firstMatch(item.qty);
+                          if (match != null) {
+                            final val = int.tryParse(match.group(1) ?? '100');
+                            return (val ?? 100) < 10;
+                          }
+                          return false;
+                        }).length;
+
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            // Updated Stats Cards
+                            Row(
+                              children: [
+                                _buildStatCard('Total Items', totalItems.toString(), PhosphorIconsRegular.package, Colors.blue),
+                                const SizedBox(width: 12),
+                                _buildStatCard('Low Stock', lowStockCount.toString(), PhosphorIconsRegular.warning, Colors.orange),
+                              ],
+                            ).animate().fadeIn(delay: 500.ms),
+
+                            const SizedBox(height: 24),
+
+                            // Inventory Grid Header
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'Inventory',
+                                  style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
+                                ),
+                                TextButton.icon(
+                                  onPressed: _showAddManualDialog,
+                                  icon: Icon(PhosphorIconsRegular.plus, size: 16),
+                                  label: const Text('Add Manually'),
+                                ),
+                              ],
+                            ).animate().fadeIn(delay: 600.ms),
+
+                            const SizedBox(height: 12),
+
+                            // The Grid
+                            Expanded(
+                              child: filteredItems.isEmpty
+                                  ? Center(
+                                      child: Column(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Icon(PhosphorIconsDuotone.package, size: 64, color: Colors.white24),
+                                          const SizedBox(height: 16),
+                                          Text(
+                                            _searchController.text.isEmpty 
+                                                ? 'No items yet.\nTry adding one via voice!'
+                                                : 'No items match your search.',
+                                            textAlign: TextAlign.center,
+                                            style: const TextStyle(color: Colors.white54, fontSize: 16),
+                                          ),
+                                        ],
+                                      ),
+                                    )
+                                  : MasonryGridView.count(
+                                      padding: const EdgeInsets.only(bottom: 100),
+                                      crossAxisCount: 2,
+                                      mainAxisSpacing: 16,
+                                      crossAxisSpacing: 16,
+                                      itemCount: filteredItems.length,
+                                      itemBuilder: (context, index) {
+                                        final item = filteredItems[index];
+                                        final random = Random(item.name.hashCode);
+                                        final color = Color((random.nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0);
+
+                                        return GestureDetector(
+                                          onTap: () => _showEditDialog(item),
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                              color: const Color(0xFF1E293B),
+                                              borderRadius: BorderRadius.circular(24),
+                                              border: Border.all(color: Colors.white.withOpacity(0.05)),
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  color: Colors.black.withOpacity(0.2),
+                                                  blurRadius: 10,
+                                                  offset: const Offset(0, 4),
+                                                )
+                                              ],
+                                            ),
+                                            child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                Container(
+                                                  height: 100,
+                                                  decoration: BoxDecoration(
+                                                    color: color.withOpacity(0.2),
+                                                    borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
+                                                  ),
+                                                  child: Center(
+                                                    child: Icon(
+                                                      PhosphorIconsDuotone.package,
+                                                      size: 48,
+                                                      color: color,
+                                                    ),
+                                                  ),
+                                                ),
+                                                Padding(
+                                                  padding: const EdgeInsets.all(16),
+                                                  child: Column(
+                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                    children: [
+                                                      Text(
+                                                        item.name,
+                                                        style: const TextStyle(
+                                                          color: Colors.white,
+                                                          fontSize: 16,
+                                                          fontWeight: FontWeight.bold,
+                                                        ),
+                                                        maxLines: 2,
+                                                        overflow: TextOverflow.ellipsis,
+                                                      ),
+                                                      const SizedBox(height: 8),
+                                                      Row(
+                                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                        children: [
+                                                          Text(
+                                                            item.qty,
+                                                            style: TextStyle(
+                                                              color: Colors.white.withOpacity(0.6),
+                                                              fontSize: 14,
+                                                            ),
+                                                          ),
+                                                          Text(
+                                                            item.price,
+                                                            style: TextStyle(
+                                                              color: Theme.of(context).primaryColor,
+                                                              fontWeight: FontWeight.bold,
+                                                              fontSize: 14,
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ).animate().scale(delay: (50 * index).ms, duration: 300.ms, curve: Curves.easeOutBack);
+                                      },
+                                    ),
+                            ),
+                          ],
+                        );
                       },
                     ),
                   ),
@@ -259,53 +562,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     );
   }
 
-  Widget _buildInventoryCard(Map<String, dynamic> item) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Theme.of(context).cardTheme.color,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: Colors.white.withOpacity(0.05)),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            height: 100,
-            width: double.infinity,
-            decoration: BoxDecoration(
-              color: Color(item['color']).withOpacity(0.2),
-              borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
-            ),
-            child: Center(
-              child: Icon(PhosphorIconsDuotone.basket, size: 40, color: Color(item['color'])),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(12.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  item['name'],
-                  style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                const SizedBox(height: 4),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(item['qty'], style: const TextStyle(color: Colors.white70)),
-                    Text(item['price'], style: TextStyle(color: Theme.of(context).secondaryHeaderColor, fontWeight: FontWeight.bold)),
-                  ],
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
+
 
   Widget _buildVoiceAgentOverlay() {
     if (!_isListening) return const SizedBox.shrink();

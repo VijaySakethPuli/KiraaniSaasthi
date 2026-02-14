@@ -1,0 +1,300 @@
+﻿ter.java:74)
+[        ] 	at org.gr
+adle.api.internal.tas
+ks.execution.CatchExc
+eptionTaskExecuter.ex
+ecute(CatchExceptionT
+askExecuter.java:36)
+[        ] 	at org.gr
+adle.api.internal.tas
+ks.execution.EventFir
+ingTaskExecuter$1.exe
+cuteTask(EventFiringT
+askExecuter.java:77)
+[        ] 	at org.gr
+adle.api.internal.tas
+ks.execution.EventFir
+ingTaskExecuter$1.cal
+l(EventFiringTaskExec
+uter.java:55)
+[        ] 	at org.gr
+adle.api.internal.tas
+ks.execution.EventFir
+ingTaskExecuter$1.cal
+l(EventFiringTaskExec
+uter.java:52)
+[        ] 	at org.gr
+adle.internal.operati
+ons.DefaultBuildOpera
+tionRunner$CallableBu
+ildOperationWorker.ex
+ecute(DefaultBuildOpe
+rationRunner.java:210
+)
+[        ] 	at org.gr
+adle.internal.operati
+ons.DefaultBuildOpera
+tionRunner$CallableBu
+ildOperationWorker.ex
+ecute(DefaultBuildOpe
+rationRunner.java:205
+)
+[        ] 	at org.gr
+adle.internal.operati
+ons.DefaultBuildOpera
+tionRunner$2.execute(
+DefaultBuildOperation
+Runner.java:67)
+[        ] 	at org.gr
+adle.internal.operati
+ons.DefaultBuildOpera
+tionRunner$2.execute(
+DefaultBuildOperation
+Runner.java:60)
+[        ] 	at org.gr
+adle.internal.operati
+ons.DefaultBuildOpera
+tionRunner.execute(De
+faultBuildOperationRu
+nner.java:167)
+[        ] 	at org.gr
+adle.internal.operati
+ons.DefaultBuildOpera
+tionRunner.execute(De
+faultBuildOperationRu
+nner.java:60)
+[        ] 	at org.gr
+adle.internal.operati
+ons.DefaultBuildOpera
+tionRunner.call(Defau
+ltBuildOperationRunne
+r.java:54)
+[        ] Deprecated Gradle features were used in this build, making it incompatible with Gradle 9.0.
+[        ] 	at org.gr
+adle.api.internal.tas
+ks.execution.EventFir
+ingTaskExecuter.execu
+te(EventFiringTaskExe
+cuter.java:52)
+[        ] 	at org.gr
+adle.execution.plan.L
+ocalTaskNodeExecutor.
+execute(LocalTaskNode
+Executor.java:42)
+[        ] 	at org.gr
+adle.execution.taskgr
+aph.DefaultTaskExecut
+ionGraph$InvokeNodeEx
+ecutorsAction.execute
+(DefaultTaskExecution
+Graph.java:331)
+[        ] 	at org.gr
+adle.execution.taskgr
+aph.DefaultTaskExecut
+ionGraph$InvokeNodeEx
+ecutorsAction.execute
+(DefaultTaskExecution
+Graph.java:318)
+[        ] 	at org.gr
+adle.execution.taskgr
+aph.DefaultTaskExecut
+ionGraph$BuildOperati
+onAwareExecutionActio
+n.lambda$execute$0(De
+faultTaskExecutionGra
+ph.java:314)
+[        ] 	at org.gr
+adle.internal.operati
+ons.CurrentBuildOpera
+tionRef.with(CurrentB
+uildOperationRef.java
+:85)
+[        ] 	at org.gr
+adle.execution.taskgr
+aph.DefaultTaskExecut
+ionGraph$BuildOperati
+onAwareExecutionActio
+n.execute(DefaultTask
+ExecutionGraph.java:3
+14)
+[        ] 	at org.gr
+adle.execution.taskgr
+aph.DefaultTaskExecut
+ionGraph$BuildOperati
+onAwareExecutionActio
+n.execute(DefaultTask
+ExecutionGraph.java:3
+03)
+[        ] 	at org.gr
+adle.execution.plan.D
+efaultPlanExecutor$Ex
+ecutorWorker.execute(
+DefaultPlanExecutor.j
+ava:459)
+[        ] 	at org.gr
+adle.execution.plan.D
+efaultPlanExecutor$Ex
+ecutorWorker.run(Defa
+ultPlanExecutor.java:
+376)
+[        ] 	at org.gr
+adle.internal.concurr
+ent.ExecutorPolicy$Ca
+tchAndRecordFailures.
+onExecute(ExecutorPol
+icy.java:64)
+[        ] 	at org.gr
+adle.internal.concurr
+ent.AbstractManagedEx
+ecutor$1.run(Abstract
+ManagedExecutor.java:
+48)
+[        ] 	at java.b
+ase/java.util.concurr
+ent.ThreadPoolExecuto
+r.runWorker(Unknown 
+Source)
+[        ] 	at java.b
+ase/java.util.concurr
+ent.ThreadPoolExecuto
+r$Worker.run(Unknown 
+Source)
+[        ] 	at java.b
+ase/java.lang.Thread.
+run(Unknown Source)
+[        ] BUILD 
+FAILED in 6s
+[        ] You can use '--warning-mode all' to show the individual deprecation warnings and determine if they come from your own scripts or plugins.
+[        ] For more on this, please refer to https://docs.gradle.org/8.14/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
+[        ] 6 actionable tasks: 2 executed, 4 up-to-date
+[        ] Watched directory hierarchies: [C:\Users\Vijay.DESKTOP-0IQCOKU\flutter\packages\flutter_tools\gradle, C:\Users\Vijay.DESKTOP-0IQCOKU\Projects\Deepmind\shop_agent\android]
+[  +91 ms] Running Gradle task 'assembleDebug'... (completed in 7.0s)
+[  +20 ms] "flutter apk" took 7,936ms.
+[  +49 ms] Gradle 
+task assembleDebug 
+failed with exit 
+code 1
+[        ] 
+           #0      
+throwToolExit (packag
+e:flutter_tools/src/b
+ase/common.dart:34:3)
+           #1      An
+droidGradleBuilder.bu
+ildGradleApp (package
+:flutter_tools/src/an
+droid/gradle.dart:592
+:7)
+           
+<asynchronous 
+suspension>
+           #2      An
+droidGradleBuilder.bu
+ildApk (package:flutt
+er_tools/src/android/
+gradle.dart:234:5)
+           
+<asynchronous 
+suspension>
+           #3      Bu
+ildApkCommand.runComm
+and (package:flutter_
+tools/src/commands/bu
+ild_apk.dart:131:5)
+           
+<asynchronous 
+suspension>
+           #4      Fl
+utterCommand.run.<ano
+nymous closure> (pack
+age:flutter_tools/src
+/runner/flutter_comma
+nd.dart:1590:27)
+           
+<asynchronous 
+suspension>
+           #5      Ap
+pContext.run.<anonymo
+us closure> (package:
+flutter_tools/src/bas
+e/context.dart:154:19
+)
+           
+<asynchronous 
+suspension>
+           #6      Co
+mmandRunner.runComman
+d (package:args/comma
+nd_runner.dart:212:13
+)
+           
+<asynchronous 
+suspension>
+           #7      Fl
+utterCommandRunner.ru
+nCommand.<anonymous 
+closure> (package:flu
+tter_tools/src/runner
+/flutter_command_runn
+er.dart:496:9)
+           
+<asynchronous 
+suspension>
+           #8      Ap
+pContext.run.<anonymo
+us closure> (package:
+flutter_tools/src/bas
+e/context.dart:154:19
+)
+           
+<asynchronous 
+suspension>
+           #9      Fl
+utterCommandRunner.ru
+nCommand (package:flu
+tter_tools/src/runner
+/flutter_command_runn
+er.dart:431:5)
+           
+<asynchronous 
+suspension>
+           #10     Fl
+utterCommandRunner.ru
+n.<anonymous 
+closure> (package:flu
+tter_tools/src/runner
+/flutter_command_runn
+er.dart:307:33)
+           
+<asynchronous 
+suspension>
+           #11     
+run.<anonymous 
+closure>.<anonymous 
+closure> (package:flu
+tter_tools/runner.dar
+t:104:11)
+           
+<asynchronous 
+suspension>
+           #12     Ap
+pContext.run.<anonymo
+us closure> (package:
+flutter_tools/src/bas
+e/context.dart:154:19
+)
+           
+<asynchronous 
+suspension>
+           #13     
+main (package:flutter
+_tools/executable.dar
+t:103:3)
+           
+<asynchronous 
+suspension>
+
+
+[        ] Running 1 shutdown hook
+[   +1 ms] Shutdown hooks complete
+[  +51 ms] exiting with code 1
